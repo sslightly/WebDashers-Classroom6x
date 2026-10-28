@@ -1,0 +1,163 @@
+<html><head><base href="https://1343469338-atari-embeds.googleusercontent.com/embeds/4c8a3211fd76886a93ab92bca3a50520/inner-frame-minified.html?jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.en.etOqPKhAhvg.O%2Fd%3D1%2Frs%3DAHpOoo-l5JrVgGKVELwC844E6riBHX86-w%2Fm%3D__features__" target="_blank">
+      <script>
+        (function() {
+          // Listen during capturing phase to intercept before <base target="_blank"> takes effect.
+          document.addEventListener('click', function(e) {
+            // Find the nearest ancestor anchor (handles nested icons, spans, svgs).
+            var el = e.target;
+            var anchor = null;
+            while (el && el !== document) {
+              if (el.tagName && el.tagName.toLowerCase() === 'a') {
+                anchor = el;
+                break;
+              }
+              el = el.parentElement;
+            }
+            if (!anchor) return;
+
+            // Only intercept relative in-page fragment links, not external links with hashes.
+            var href = anchor.getAttribute('href');
+            if (!href) return;
+            href = href.trim();
+            if (!href.startsWith('#')) return;
+
+            // Prevent default <base target="_blank"> navigation to a new blank tab.
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Handle empty anchor or top anchor.
+            if (href === '#' || href === '#top') {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              return;
+            }
+
+            // Resolve target element by id, falling back to legacy name attribute.
+            var targetId = href.slice(1);
+            try {
+              targetId = decodeURIComponent(targetId);
+            } catch (err) {}
+
+            var targetEl = document.getElementById(targetId);
+            if (!targetEl) {
+              try {
+                var escaped = window.CSS && CSS.escape ? CSS.escape(targetId) : targetId.replace(/["\\]/g, '\\$&');
+                targetEl = document.querySelector('[name="' + escaped + '"]');
+              } catch (err) {}
+            }
+
+            // Smoothly scroll to the target within the embed and update URL hash history.
+            if (targetEl) {
+              targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              if (window.history && window.history.pushState) {
+                window.history.pushState(null, '', href);
+              }
+            }
+          }, true); // useCapture: true is critical to preempt <base target="_blank">
+        })();
+      </script>
+    </head><body><div id="fr" data="&lt;iframe width=&quot;100%&quot; height=&quot;100%&quot; src=&quot;https://pinkdev.d13qic2f6zga3.amplifyapp.com/games/geometry-dash.html&quot; frameborder=&quot;0&quot; allowfullscreen&gt;&lt;/iframe&gt;">
+</div><button class="c-button" type="button" onclick="PlayTo(this)">Play on Classroom 6X   </button>
+
+
+
+<style>
+body{
+  padding: 0px;
+  margin: 0px;
+}
+.c-button {
+  min-width: 100%;
+  font-family: fantasy;
+  appearance: auto;
+  border: 0;
+  border-color: #fff;
+  border-radius: 5px;
+  background: #274e13;
+  color: #fff;
+
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.c-button:hover {
+  background: #6aa84f;
+}
+
+.c-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px #cbd6ee;
+}
+  
+ .c-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+</style>
+
+<script>
+function PlayTo(sel){
+  var div = sel.previousSibling;
+  div.innerHTML=div.getAttribute('data');
+  sel.style.display = "none";
+}
+</script>
+      <script>
+        (function() {
+          // The root element's background fills the whole page. As in CSS,
+          // the body's background is used when the root element has none.
+          function getPageBackgroundColor() {
+            var docStyle = window.getComputedStyle(document.documentElement);
+            var color = docStyle.backgroundColor;
+            if ((color === 'rgba(0, 0, 0, 0)' || color === 'transparent') &&
+                docStyle.backgroundImage === 'none' && document.body) {
+              color = window.getComputedStyle(document.body).backgroundColor;
+            }
+            return color || '';
+          }
+
+          var lastReportedColor = '';
+          function reportBackgroundColor() {
+            try {
+              var color = getPageBackgroundColor();
+              if (color === lastReportedColor) return;
+              lastReportedColor = color;
+              window.parent.postMessage({
+                type: 'ATARI_CODE_EMBED_BACKGROUND_COLOR',
+                backgroundColor: color
+              }, '*');
+            } catch (e) {}
+          }
+
+          // The page background usually changes through an attribute on html
+          // or body (for example a theme class), a style sheet in head, or the
+          // system color scheme.
+          if (typeof MutationObserver !== 'undefined') {
+            var observer = new MutationObserver(reportBackgroundColor);
+            observer.observe(document.documentElement, {attributes: true});
+            if (document.body) {
+              observer.observe(document.body, {attributes: true});
+            }
+            if (document.head) {
+              observer.observe(document.head, {
+                attributes: true,
+                childList: true,
+                subtree: true,
+                characterData: true
+              });
+            }
+          }
+          var colorSchemeQuery =
+              window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+          if (colorSchemeQuery && colorSchemeQuery.addEventListener) {
+            colorSchemeQuery.addEventListener('change', reportBackgroundColor);
+          }
+          window.addEventListener('load', reportBackgroundColor);
+          window.addEventListener('transitionend', reportBackgroundColor);
+          window.addEventListener('animationend', reportBackgroundColor);
+          reportBackgroundColor();
+        })();
+      </script>
+    </body></html>
